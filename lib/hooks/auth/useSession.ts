@@ -12,11 +12,12 @@ export default function useSession() {
                     method: "GET",
                 });
 
-                const data = await res.json();
-                if (data?.message == "Unauthorized") {
-                    setUser(undefined)
+                if (!res.ok) {
+                    setUser(undefined);
+                    return;
                 }
 
+                const data = await res.json().catch(() => undefined);
                 setUser(data);
             } catch (e) {
                 setUser(undefined);
@@ -26,7 +27,7 @@ export default function useSession() {
         };
 
         load();
-    }, []); // <── SADECE 1 KEZ ÇALIŞIR
+    }, []);
 
     return { loading, user };
 }

@@ -13,12 +13,37 @@ enum Role {
   USER
 }
 
+enum OrderStatus {
+  HAZIRLANIYOR
+  KARGODA
+  TAMAMLANDI
+  IPTAL_EDILDI
+  IADE_EDILDI
+}
+
 model User {
-  id         String   @id @unique @default(cuid())
-  username   String
-  email      String   @unique
-  verified   Boolean
-  role       Role     @default(USER)
+  id       String @id @unique @default(cuid())
+  username String
+  email    String @unique
+  password String
+  verified Boolean
+  role     Role   @default(USER)
+
+  phone         String?
+  first_name    String?
+  last_name     String?
+  address_line1 String?
+  address_line2 String?
+  city          String?
+  district      String?
+  postal_code   String?
+  country       String? @default("TR")
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  auth_tokens AuthToken[]
+  orders      Order[]
 
   @@index([email, id])
 }
@@ -29,5 +54,67 @@ model AuthToken {
   user_id    String
   expires_at DateTime
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+}
+
+model Order {
+  id      String      @id @unique @default(cuid())
+  user_id String
+  status  OrderStatus @default(HAZIRLANIYOR)
+
+  total_amount Decimal
+  note         String?
+  meta         Json?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user  User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  items OrderItem[]
+
+  @@index([user_id, status])
+  @@index([created_at])
+}
+
+model OrderItem {
+  id       String  @id @unique @default(cuid())
+  order_id String
+
+  product_id  Int?
+  title       String
+  image_url   String?
+  unit_price  Decimal
+  quantity    Int
+  line_total  Decimal
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  order Order @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product Product? @relation(fields: [product_id], references: [id], onDelete: SetNull)
+
+  @@index([order_id])
+  @@index([product_id])
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  price       Decimal
+  tag         String?
+  category    String?
+  stock       Int      @default(0)
+  images      Json?
+  active      Boolean  @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  order_items OrderItem[]
+
+  @@index([active])
+  @@index([category])
 }

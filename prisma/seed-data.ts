@@ -1,66 +1,69 @@
-export type Product = {
-  id: number;
-  title: string;
-  price: string;
-  img: string;
-  tag: string;
-  category: string;
-  description?: string;
-};
-
-export const products: Product[] = [
+export const seedProducts = [
   {
     id: 101,
     title: "Anti-Aging Cream",
-    price: "₺780",
-    img: "/5.png",
+    price: 780,
     tag: "En Çok Satan",
     category: "bakim",
+    stock: 62,
     description: "Hassas ciltler için bitkisel anti-aging kompleks.",
+    images: ["/5.png"],
+    active: true,
   },
   {
     id: 102,
     title: "Gentle Cleanser",
-    price: "₺520",
-    img: "/6.png",
+    price: 520,
     tag: "Yeni",
     category: "temizlik",
+    stock: 41,
     description: "Sülfatsız, nazik temizlik sağlayan yüz temizleme jeli.",
+    images: ["/6.png"],
+    active: true,
   },
   {
     id: 103,
     title: "Hydra Serum",
-    price: "₺640",
-    img: "/7.png",
+    price: 640,
     tag: "Nem Bombası",
     category: "serum",
+    stock: 18,
     description: "Hyaluronik asit ve bitki özleriyle yoğun nem desteği.",
+    images: ["/7.png"],
+    active: true,
   },
   {
     id: 104,
     title: "Mineral Toner",
-    price: "₺450",
-    img: "/3.png",
+    price: 450,
     tag: "Denge",
     category: "temizlik",
+    stock: 0,
     description: "Mineral içerikli; cildi dengeleyen ve gözenek görünümünü azaltan toner.",
+    images: ["/3.png"],
+    active: true,
   },
   {
     id: 105,
     title: "Vitamin C Serum",
-    price: "₺690",
-    img: "/4.png",
+    price: 690,
     tag: "Parlaklık",
     category: "serum",
+    stock: 24,
     description: "C vitamini ve antioksidan karışımıyla aydınlatıcı serum.",
+    images: ["/4.png"],
+    active: true,
   },
   {
     id: 106,
     title: "Night Repair Oil",
-    price: "₺820",
-    img: "/2.png",
+    price: 820,
     tag: "Bakım",
     category: "bakim",
+    stock: 9,
     description: "Gece bakımında onarıcı ve besleyici yağ karışımı.",
+    images: ["/2.png"],
+    active: true,
   },
-];
+] as const;
+

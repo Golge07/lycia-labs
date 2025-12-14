@@ -10,4 +10,7 @@
  */
 export type * from './models/User'
 export type * from './models/AuthToken'
+export type * from './models/Order'
+export type * from './models/OrderItem'
+export type * from './models/Product'
 export type * from './commonInputTypes'

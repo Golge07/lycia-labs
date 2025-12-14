@@ -190,6 +190,7 @@ export type AuthTokenWhereInput = {
   expires_at?: Prisma.DateTimeFilter<"AuthToken"> | Date | string
   created_at?: Prisma.DateTimeFilter<"AuthToken"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"AuthToken"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type AuthTokenOrderByWithRelationInput = {
@@ -199,6 +200,7 @@ export type AuthTokenOrderByWithRelationInput = {
   expires_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type AuthTokenWhereUniqueInput = Prisma.AtLeast<{
@@ -211,6 +213,7 @@ export type AuthTokenWhereUniqueInput = Prisma.AtLeast<{
   expires_at?: Prisma.DateTimeFilter<"AuthToken"> | Date | string
   created_at?: Prisma.DateTimeFilter<"AuthToken"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"AuthToken"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "id">
 
 export type AuthTokenOrderByWithAggregationInput = {
@@ -240,10 +243,10 @@ export type AuthTokenScalarWhereWithAggregatesInput = {
 export type AuthTokenCreateInput = {
   id?: string
   hash: string
-  user_id: string
   expires_at: Date | string
   created_at?: Date | string
   updated_at?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutAuth_tokensInput
 }
 
 export type AuthTokenUncheckedCreateInput = {
@@ -258,10 +261,10 @@ export type AuthTokenUncheckedCreateInput = {
 export type AuthTokenUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
   expires_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutAuth_tokensNestedInput
 }
 
 export type AuthTokenUncheckedUpdateInput = {
@@ -285,7 +288,6 @@ export type AuthTokenCreateManyInput = {
 export type AuthTokenUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
   expires_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -298,6 +300,16 @@ export type AuthTokenUncheckedUpdateManyInput = {
   expires_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AuthTokenListRelationFilter = {
+  every?: Prisma.AuthTokenWhereInput
+  some?: Prisma.AuthTokenWhereInput
+  none?: Prisma.AuthTokenWhereInput
+}
+
+export type AuthTokenOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type AuthTokenCountOrderByAggregateInput = {
@@ -327,8 +339,132 @@ export type AuthTokenMinOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type AuthTokenCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.AuthTokenCreateWithoutUserInput, Prisma.AuthTokenUncheckedCreateWithoutUserInput> | Prisma.AuthTokenCreateWithoutUserInput[] | Prisma.AuthTokenUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.AuthTokenCreateOrConnectWithoutUserInput | Prisma.AuthTokenCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.AuthTokenCreateManyUserInputEnvelope
+  connect?: Prisma.AuthTokenWhereUniqueInput | Prisma.AuthTokenWhereUniqueInput[]
+}
+
+export type AuthTokenUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.AuthTokenCreateWithoutUserInput, Prisma.AuthTokenUncheckedCreateWithoutUserInput> | Prisma.AuthTokenCreateWithoutUserInput[] | Prisma.AuthTokenUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.AuthTokenCreateOrConnectWithoutUserInput | Prisma.AuthTokenCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.AuthTokenCreateManyUserInputEnvelope
+  connect?: Prisma.AuthTokenWhereUniqueInput | Prisma.AuthTokenWhereUniqueInput[]
+}
+
+export type AuthTokenUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AuthTokenCreateWithoutUserInput, Prisma.AuthTokenUncheckedCreateWithoutUserInput> | Prisma.AuthTokenCreateWithoutUserInput[] | Prisma.AuthTokenUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.AuthTokenCreateOrConnectWithoutUserInput | Prisma.AuthTokenCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.AuthTokenUpsertWithWhereUniqueWithoutUserInput | Prisma.AuthTokenUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.AuthTokenCreateManyUserInputEnvelope
+  set?: Prisma.AuthTokenWhereUniqueInput | Prisma.AuthTokenWhereUniqueInput[]
+  disconnect?: Prisma.AuthTokenWhereUniqueInput | Prisma.AuthTokenWhereUniqueInput[]
+  delete?: Prisma.AuthTokenWhereUniqueInput | Prisma.AuthTokenWhereUniqueInput[]
+  connect?: Prisma.AuthTokenWhereUniqueInput | Prisma.AuthTokenWhereUniqueInput[]
+  update?: Prisma.AuthTokenUpdateWithWhereUniqueWithoutUserInput | Prisma.AuthTokenUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.AuthTokenUpdateManyWithWhereWithoutUserInput | Prisma.AuthTokenUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.AuthTokenScalarWhereInput | Prisma.AuthTokenScalarWhereInput[]
+}
+
+export type AuthTokenUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AuthTokenCreateWithoutUserInput, Prisma.AuthTokenUncheckedCreateWithoutUserInput> | Prisma.AuthTokenCreateWithoutUserInput[] | Prisma.AuthTokenUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.AuthTokenCreateOrConnectWithoutUserInput | Prisma.AuthTokenCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.AuthTokenUpsertWithWhereUniqueWithoutUserInput | Prisma.AuthTokenUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.AuthTokenCreateManyUserInputEnvelope
+  set?: Prisma.AuthTokenWhereUniqueInput | Prisma.AuthTokenWhereUniqueInput[]
+  disconnect?: Prisma.AuthTokenWhereUniqueInput | Prisma.AuthTokenWhereUniqueInput[]
+  delete?: Prisma.AuthTokenWhereUniqueInput | Prisma.AuthTokenWhereUniqueInput[]
+  connect?: Prisma.AuthTokenWhereUniqueInput | Prisma.AuthTokenWhereUniqueInput[]
+  update?: Prisma.AuthTokenUpdateWithWhereUniqueWithoutUserInput | Prisma.AuthTokenUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.AuthTokenUpdateManyWithWhereWithoutUserInput | Prisma.AuthTokenUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.AuthTokenScalarWhereInput | Prisma.AuthTokenScalarWhereInput[]
+}
+
+export type AuthTokenCreateWithoutUserInput = {
+  id?: string
+  hash: string
+  expires_at: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+}
+
+export type AuthTokenUncheckedCreateWithoutUserInput = {
+  id?: string
+  hash: string
+  expires_at: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+}
+
+export type AuthTokenCreateOrConnectWithoutUserInput = {
+  where: Prisma.AuthTokenWhereUniqueInput
+  create: Prisma.XOR<Prisma.AuthTokenCreateWithoutUserInput, Prisma.AuthTokenUncheckedCreateWithoutUserInput>
+}
+
+export type AuthTokenCreateManyUserInputEnvelope = {
+  data: Prisma.AuthTokenCreateManyUserInput | Prisma.AuthTokenCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type AuthTokenUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.AuthTokenWhereUniqueInput
+  update: Prisma.XOR<Prisma.AuthTokenUpdateWithoutUserInput, Prisma.AuthTokenUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.AuthTokenCreateWithoutUserInput, Prisma.AuthTokenUncheckedCreateWithoutUserInput>
+}
+
+export type AuthTokenUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.AuthTokenWhereUniqueInput
+  data: Prisma.XOR<Prisma.AuthTokenUpdateWithoutUserInput, Prisma.AuthTokenUncheckedUpdateWithoutUserInput>
+}
+
+export type AuthTokenUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.AuthTokenScalarWhereInput
+  data: Prisma.XOR<Prisma.AuthTokenUpdateManyMutationInput, Prisma.AuthTokenUncheckedUpdateManyWithoutUserInput>
+}
+
+export type AuthTokenScalarWhereInput = {
+  AND?: Prisma.AuthTokenScalarWhereInput | Prisma.AuthTokenScalarWhereInput[]
+  OR?: Prisma.AuthTokenScalarWhereInput[]
+  NOT?: Prisma.AuthTokenScalarWhereInput | Prisma.AuthTokenScalarWhereInput[]
+  id?: Prisma.StringFilter<"AuthToken"> | string
+  hash?: Prisma.StringFilter<"AuthToken"> | string
+  user_id?: Prisma.StringFilter<"AuthToken"> | string
+  expires_at?: Prisma.DateTimeFilter<"AuthToken"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"AuthToken"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"AuthToken"> | Date | string
+}
+
+export type AuthTokenCreateManyUserInput = {
+  id?: string
+  hash: string
+  expires_at: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+}
+
+export type AuthTokenUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  hash?: Prisma.StringFieldUpdateOperationsInput | string
+  expires_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AuthTokenUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  hash?: Prisma.StringFieldUpdateOperationsInput | string
+  expires_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AuthTokenUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  hash?: Prisma.StringFieldUpdateOperationsInput | string
+  expires_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -340,6 +476,7 @@ export type AuthTokenSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   expires_at?: boolean
   created_at?: boolean
   updated_at?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["authToken"]>
 
 export type AuthTokenSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -349,6 +486,7 @@ export type AuthTokenSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   expires_at?: boolean
   created_at?: boolean
   updated_at?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["authToken"]>
 
 export type AuthTokenSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -358,6 +496,7 @@ export type AuthTokenSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   expires_at?: boolean
   created_at?: boolean
   updated_at?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["authToken"]>
 
 export type AuthTokenSelectScalar = {
@@ -370,10 +509,21 @@ export type AuthTokenSelectScalar = {
 }
 
 export type AuthTokenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "hash" | "user_id" | "expires_at" | "created_at" | "updated_at", ExtArgs["result"]["authToken"]>
+export type AuthTokenInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type AuthTokenIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type AuthTokenIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $AuthTokenPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AuthToken"
-  objects: {}
+  objects: {
+    user: Prisma.$UserPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     hash: string
@@ -775,6 +925,7 @@ readonly fields: AuthTokenFieldRefs;
  */
 export interface Prisma__AuthTokenClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -827,6 +978,10 @@ export type AuthTokenFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.AuthTokenOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenInclude<ExtArgs> | null
+  /**
    * Filter, which AuthToken to fetch.
    */
   where: Prisma.AuthTokenWhereUniqueInput
@@ -845,6 +1000,10 @@ export type AuthTokenFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.AuthTokenOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenInclude<ExtArgs> | null
+  /**
    * Filter, which AuthToken to fetch.
    */
   where: Prisma.AuthTokenWhereUniqueInput
@@ -862,6 +1021,10 @@ export type AuthTokenFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the AuthToken
    */
   omit?: Prisma.AuthTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenInclude<ExtArgs> | null
   /**
    * Filter, which AuthToken to fetch.
    */
@@ -911,6 +1074,10 @@ export type AuthTokenFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.AuthTokenOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenInclude<ExtArgs> | null
+  /**
    * Filter, which AuthToken to fetch.
    */
   where?: Prisma.AuthTokenWhereInput
@@ -959,6 +1126,10 @@ export type AuthTokenFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.AuthTokenOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenInclude<ExtArgs> | null
+  /**
    * Filter, which AuthTokens to fetch.
    */
   where?: Prisma.AuthTokenWhereInput
@@ -1002,6 +1173,10 @@ export type AuthTokenCreateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.AuthTokenOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenInclude<ExtArgs> | null
+  /**
    * The data needed to create a AuthToken.
    */
   data: Prisma.XOR<Prisma.AuthTokenCreateInput, Prisma.AuthTokenUncheckedCreateInput>
@@ -1035,6 +1210,10 @@ export type AuthTokenCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    */
   data: Prisma.AuthTokenCreateManyInput | Prisma.AuthTokenCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1049,6 +1228,10 @@ export type AuthTokenUpdateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the AuthToken
    */
   omit?: Prisma.AuthTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenInclude<ExtArgs> | null
   /**
    * The data needed to update a AuthToken.
    */
@@ -1101,6 +1284,10 @@ export type AuthTokenUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many AuthTokens to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1115,6 +1302,10 @@ export type AuthTokenUpsertArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the AuthToken
    */
   omit?: Prisma.AuthTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenInclude<ExtArgs> | null
   /**
    * The filter to search for the AuthToken to update in case it exists.
    */
@@ -1141,6 +1332,10 @@ export type AuthTokenDeleteArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the AuthToken
    */
   omit?: Prisma.AuthTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenInclude<ExtArgs> | null
   /**
    * Filter which AuthToken to delete.
    */
@@ -1173,4 +1368,8 @@ export type AuthTokenDefaultArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the AuthToken
    */
   omit?: Prisma.AuthTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenInclude<ExtArgs> | null
 }

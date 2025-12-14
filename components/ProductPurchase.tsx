@@ -2,16 +2,37 @@
 
 import { useState } from "react";
 import { BiMinus, BiPlus } from "react-icons/bi";
+import { useAppDispatch } from "@/lib/store";
+import { addToCart } from "@/lib/slices/cart";
 
 type Props = {
+  productId: number;
+  title: string;
   price: string;
+  img: string;
 };
 
-export default function ProductPurchase({ price }: Props) {
+function parsePrice(input: string) {
+  const cleaned = input.replace(/[^\d.,]/g, "").replace(/\./g, "").replace(",", ".");
+  const value = Number(cleaned);
+  return Number.isFinite(value) ? value : 0;
+}
+
+export default function ProductPurchase({ productId, title, price, img }: Props) {
+  const dispatch = useAppDispatch();
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
 
   const handleAdd = () => {
+    dispatch(
+      addToCart({
+        productId,
+        title,
+        img,
+        unitPrice: parsePrice(price),
+        qty: quantity,
+      }),
+    );
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
   };
@@ -55,4 +76,3 @@ export default function ProductPurchase({ price }: Props) {
     </div>
   );
 }
-

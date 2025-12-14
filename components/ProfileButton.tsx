@@ -1,12 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { FaUser } from "react-icons/fa6";
 import Button from "./ui/button";
+import { useAppDispatch, useAppSelector } from "@/lib/store";
+import { logoutClient } from "@/lib/slices/auth";
 
 export default function ProfileButton() {
+  const user = useAppSelector((s) => s.user.user);
+  const dispatch = useAppDispatch();
+
   const [rendered, setRendered] = useState(false);
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number; right: number }>({ top: 0, right: 0 });
@@ -110,46 +116,85 @@ export default function ProfileButton() {
         >
           <div className="border-b border-[rgba(59,43,43,0.12)] px-4 py-3">
             <p className="heading-font text-base text-foreground">Profil</p>
-            <p className="text-sm text-[rgba(59,43,43,0.65)]">Hızlı işlemler</p>
+            {user ? (
+              <div className="mt-1 text-sm text-[rgba(59,43,43,0.65)]">
+                <p className="font-semibold text-foreground">{user.username}</p>
+                <p className="truncate">{user.email}</p>
+              </div>
+            ) : (
+              <p className="text-sm text-[rgba(59,43,43,0.65)]">Hızlı işlemler</p>
+            )}
           </div>
 
-          <div className="p-2">
-            {[
-              { label: "Giriş yap / Kayıt ol", href: "#" },
-              { label: "Favorilerim", href: "#" },
-              { label: "Siparişlerim", href: "#" },
-            ].map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
+          {user ? (
+            <div className="p-2">
+              {user.role === "OWNER" ? (
+                <Link
+                  href="/panel"
+                  onClick={close}
+                  className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-medium text-foreground transition hover:bg-[rgba(230,215,194,0.35)]"
+                >
+                  <span>Yönetim Paneli</span>
+                  <span className="text-terracotta">→</span>
+                </Link>
+              ) : null}
+
+              <button
+                type="button"
                 onClick={close}
-                className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-medium text-foreground transition hover:bg-[rgba(230,215,194,0.35)]"
+                className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-medium text-foreground transition hover:bg-[rgba(230,215,194,0.35)]"
               >
-                <span>{item.label}</span>
-                <span className="text-terracotta">→</span>
-              </a>
-            ))}
-          </div>
+                <Link href="/profil" onClick={close} className="flex w-full items-center justify-between">
+                  <span>Hesap</span>
+                  <span className="text-terracotta">→</span>
+                </Link>
+              </button>
+            </div>
+          ) : (
+            <div className="p-3">
+              <Link
+                href="/login"
+                onClick={close}
+                className="inline-flex w-full items-center justify-center rounded-xl bg-terracotta px-4 py-3 text-sm font-semibold text-white shadow-md transition hover:shadow-lg"
+              >
+                Giriş Yap
+              </Link>
+              <Link
+                href="/register"
+                onClick={close}
+                className="mt-2 inline-flex w-full items-center justify-center rounded-xl border border-[rgba(59,43,43,0.16)] bg-white px-4 py-3 text-sm font-semibold text-foreground transition hover:border-terracotta hover:text-terracotta"
+              >
+                Kayıt Ol
+              </Link>
+            </div>
+          )}
 
-          <div className="p-3 pt-1">
-            <button
-              onClick={close}
-              className="w-full rounded-xl border border-[rgba(59,43,43,0.14)] bg-white px-3 py-2 text-sm font-semibold text-terracotta transition hover:bg-terracotta/10"
-            >
-              Kapat
-            </button>
-          </div>
+          {user ? (
+            <div className="p-3 pt-1">
+              <button
+                onClick={async () => {
+                  close();
+                  dispatch(logoutClient());
+                  await fetch("/api/auth/logout", { method: "POST" });
+                  window.location.href = "/";
+                }}
+                className="w-full rounded-xl border border-[rgba(59,43,43,0.14)] bg-white px-3 py-2 text-sm font-semibold text-terracotta transition hover:bg-terracotta/10"
+              >
+                Çıkış Yap
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     );
-  }, [close, panelRef, pos.right, pos.top, rendered]);
+  }, [close, dispatch, pos.right, pos.top, rendered, user]);
 
   return (
     <>
       <Button
         outline
         aria-label="Profil"
-        className="h-10 w-10 p-0 text-terracotta hover:bg-terracotta hover:text-white"
+        className="h-10 w-10 p-3!"
         onClick={() => {
           if (open) {
             close();
@@ -160,7 +205,7 @@ export default function ProfileButton() {
         }}
         ref={triggerRef}
       >
-        <FaUser />
+        <FaUser className="w-6 h-6" />
       </Button>
 
       {typeof document !== "undefined" && ui ? createPortal(ui, document.body) : null}

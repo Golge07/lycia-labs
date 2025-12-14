@@ -47,3 +47,18 @@ export type User = Prisma.UserModel
  * 
  */
 export type AuthToken = Prisma.AuthTokenModel
+/**
+ * Model Order
+ * 
+ */
+export type Order = Prisma.OrderModel
+/**
+ * Model OrderItem
+ * 
+ */
+export type OrderItem = Prisma.OrderItemModel
+/**
+ * Model Product
+ * 
+ */
+export type Product = Prisma.ProductModel

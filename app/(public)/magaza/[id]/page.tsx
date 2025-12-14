@@ -4,7 +4,6 @@ import Reveal from "@/components/Reveal";
 import Stagger from "@/components/Stagger";
 import ProductGallery from "@/components/ProductGallery";
 import ProductPurchase from "@/components/ProductPurchase";
-import { products } from "../data";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -12,13 +11,96 @@ type Props = {
 
 const galleryFallbacks = ["/5.png", "/6.png", "/7.png", "/3.png"];
 
+function formatMoney(amount: number) {
+  return `₺${amount.toLocaleString("tr-TR")}`;
+}
+
+function getBaseUrl() {
+  return (
+    process.env.NEXT_PUBLIC_APP_URL ||
+    process.env.APP_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
+    "http://localhost:3000"
+  );
+}
+
+export async function generateMetadata({ params }: Props) {
+  const resolved = await params;
+  const id = Number(resolved.id);
+  if (!Number.isFinite(id)) return {};
+
+  const baseUrl = getBaseUrl();
+  const res = await fetch(`${baseUrl}/api/products/${id}`, { next: { tags: ["products", `product:${id}`] } });
+  const product = (await res.json().catch(() => null)) as null | {
+    id: number;
+    title: string;
+    description: string | null;
+    price: number;
+    tag: string | null;
+    category: string | null;
+    stock: number;
+    images: string[];
+  };
+  if (!product) return {};
+
+  const title = `${product.title} | Lycia Labs`;
+  const description =
+    product.description ??
+    "Temiz içerikler ve dengeli formüllerle tasarlanmış, cildinize nazik bir bakım sunar.";
+  const image = product.images[0];
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: image ? [image] : [],
+    },
+  };
+}
+
 export default async function UrunDetay({ params }: Props) {
   const resolved = await params;
-  const product = products.find((p) => p.id === Number(resolved.id));
+  const id = Number(resolved.id);
+  if (!Number.isFinite(id)) return notFound();
+
+  const baseUrl = getBaseUrl();
+  const res = await fetch(`${baseUrl}/api/products/${id}`, { next: { tags: ["products", `product:${id}`] } });
+  if (!res.ok) return notFound();
+  const product = (await res.json()) as {
+    id: number;
+    title: string;
+    description: string | null;
+    price: number;
+    tag: string | null;
+    category: string | null;
+    stock: number;
+    images: string[];
+  };
   if (!product) return notFound();
 
-  const base = product.img ? [product.img] : [];
+  const base = product.images.length ? product.images : [];
   const images = [...base, ...galleryFallbacks.filter((g) => !base.includes(g))].slice(0, 4);
+  const priceText = formatMoney(product.price);
+
+  const listRes = await fetch(
+    `${baseUrl}/api/products${product.category ? `?kategori=${encodeURIComponent(product.category)}` : ""}`,
+    { next: { tags: ["products"] } },
+  );
+  const all = (await listRes.json().catch(() => [])) as Array<{
+    id: number;
+    title: string;
+    description: string | null;
+    price: number;
+    tag: string | null;
+    category: string | null;
+    stock: number;
+    images: string[];
+  }>;
+  const similar = all
+    .filter((p) => p.id !== product.id)
+    .slice(0, 3);
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[var(--background)] text-foreground">
@@ -33,7 +115,7 @@ export default async function UrunDetay({ params }: Props) {
             <div>
               <p className="heading-font text-sm uppercase tracking-[0.3em] text-terracotta">Ürün Detayı</p>
               <h1 className="heading-font text-4xl text-foreground">{product.title}</h1>
-              <p className="text-base text-[rgba(59,43,43,0.65)]">{product.category.toUpperCase()}</p>
+              <p className="text-base text-[rgba(59,43,43,0.65)]">{(product.category ?? "-").toUpperCase()}</p>
             </div>
             <Link
               href="/magaza"
@@ -53,17 +135,18 @@ export default async function UrunDetay({ params }: Props) {
             <div className="space-y-4 rounded-3xl p-2">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="rounded-full bg-sand px-3 py-1 text-sm font-semibold text-foreground shadow-sm">
-                  {product.tag}
+                  {product.tag ?? "Öne çıkan"}
                 </span>
                 <span className="rounded-full bg-terracotta/10 px-3 py-1 text-sm font-semibold text-terracotta">
-                  {product.category.toUpperCase()}
+                  {(product.category ?? "-").toUpperCase()}
                 </span>
               </div>
 
               <p className="heading-font text-3xl text-foreground">{product.title}</p>
 
               <p className="text-base text-[rgba(59,43,43,0.75)]">
-                {product.description || "Temiz içerikler ve dengeli formüllerle tasarlanmış, cildinize nazik bir bakım sunar."}
+                {product.description ??
+                  "Temiz içerikler ve dengeli formüllerle tasarlanmış, cildinize nazik bir bakım sunar."}
               </p>
 
               <div className="grid gap-2 text-base text-[rgba(59,43,43,0.7)]">
@@ -86,7 +169,7 @@ export default async function UrunDetay({ params }: Props) {
                 ))}
               </div>
 
-              <ProductPurchase price={product.price} />
+              <ProductPurchase productId={product.id} title={product.title} price={priceText} img={product.images[0] ?? "/5.png"} />
             </div>
           </Reveal>
         </div>
@@ -105,32 +188,28 @@ export default async function UrunDetay({ params }: Props) {
           </Reveal>
 
           <Stagger className="grid gap-4 md:grid-cols-3">
-            {products
-              .filter((p) => p.id !== product.id)
-              .slice(0, 3)
-              .map((item) => (
-                <Link
-                  key={item.id}
-                  href={`/magaza/${item.id}`}
-                  className="group overflow-hidden rounded-2xl border border-[rgba(59,43,43,0.12)] bg-white/80 shadow-md transition hover:shadow-xl"
-                >
-                  <div className="h-32 w-full overflow-hidden">
-                    <img
-                      src={item.img}
-                      alt={item.title}
-                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="space-y-1 px-4 py-3">
-                    <p className="heading-font text-base text-foreground">{item.title}</p>
-                    <p className="text-base font-semibold text-terracotta">{item.price}</p>
-                  </div>
-                </Link>
-              ))}
+            {similar.map((item) => (
+              <Link
+                key={item.id}
+                href={`/magaza/${item.id}`}
+                className="group overflow-hidden rounded-2xl border border-[rgba(59,43,43,0.12)] bg-white/80 shadow-md transition hover:shadow-xl"
+              >
+                <div className="h-32 w-full overflow-hidden">
+                  <img
+                    src={item.images[0] ?? "/5.png"}
+                    alt={item.title}
+                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <div className="space-y-1 px-4 py-3">
+                  <p className="heading-font text-base text-foreground">{item.title}</p>
+                  <p className="text-base font-semibold text-terracotta">{formatMoney(item.price)}</p>
+                </div>
+              </Link>
+            ))}
           </Stagger>
         </section>
       </main>
     </div>
   );
 }
-
