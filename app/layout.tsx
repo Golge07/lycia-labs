@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { Tenor_Sans, Montserrat } from "next/font/google";
+import { Montserrat, Tenor_Sans } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 const primaryFont = Tenor_Sans({
   subsets: ["latin"],
@@ -15,10 +13,10 @@ const secondaryFont = Montserrat({
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-secondary",
 });
+
 export const metadata: Metadata = {
   title: "Lycia Labs | Doğal Bakım",
-  description:
-    "Lycia Labs için modern, kurumsal ve e-ticaret odaklı web deneyimi.",
+  description: "Akdeniz’den ilham alan temiz bakım ürünleri.",
 };
 
 export default function RootLayout({
@@ -27,13 +25,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${primaryFont.variable} ${secondaryFont.variable} antialiased h-screen w-screen overflow-hidden`}>
-        <div className="w-full h-full overflow-y-auto">
-          <Header />
-          {children}
-          <Footer />
-        </div>
+    <html lang="tr">
+      <body className={`${primaryFont.variable} ${secondaryFont.variable} antialiased min-h-screen`}>
+        {children}
       </body>
     </html>
   );

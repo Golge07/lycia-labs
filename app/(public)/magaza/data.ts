@@ -25,7 +25,7 @@ export const products: Product[] = [
     img: "/6.png",
     tag: "Yeni",
     category: "temizlik",
-    description: "Sulfatsız, nazik temizlik sağlayan yüz temizleme jeli.",
+    description: "Sülfatsız, nazik temizlik sağlayan yüz temizleme jeli.",
   },
   {
     id: 103,
@@ -43,7 +43,7 @@ export const products: Product[] = [
     img: "/3.png",
     tag: "Denge",
     category: "temizlik",
-    description: "Mineral içerikli, cildi dengeleyen ve gözenek sıkılaştıran toner.",
+    description: "Mineral içerikli; cildi dengeleyen ve gözenek görünümünü azaltan toner.",
   },
   {
     id: 105,
@@ -61,6 +61,6 @@ export const products: Product[] = [
     img: "/2.png",
     tag: "Bakım",
     category: "bakim",
-    description: "Gece bakımında onarıcı, besleyici yağ karışımı.",
+    description: "Gece bakımında onarıcı ve besleyici yağ karışımı.",
   },
 ];

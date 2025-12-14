@@ -1,0 +1,33 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "./generated"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  OWNER
+  USER
+}
+
+model User {
+  id         String   @id @unique @default(cuid())
+  username   String
+  email      String   @unique
+  verified   Boolean
+  role       Role     @default(USER)
+
+  @@index([email, id])
+}
+
+model AuthToken {
+  id         String   @id @unique @default(cuid())
+  hash       String
+  user_id    String
+  expires_at DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
