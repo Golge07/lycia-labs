@@ -60,6 +60,9 @@ export default async function Magaza({ searchParams }: Props) {
   }>;
   const filtered = products;
 
+  console.log(products);
+  
+
   return (
     <main className="relative z-10 space-y-8 bg-[var(--background)] px-6 pb-16 pt-10 text-foreground md:px-10 lg:px-14">
       <Reveal>
