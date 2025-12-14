@@ -4,6 +4,7 @@ import Reveal from "@/components/Reveal";
 import Stagger from "@/components/Stagger";
 import ProductGallery from "@/components/ProductGallery";
 import ProductPurchase from "@/components/ProductPurchase";
+import { getPublicProductById, getPublicProducts } from "@/lib/products/server";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -15,32 +16,12 @@ function formatMoney(amount: number) {
   return `₺${amount.toLocaleString("tr-TR")}`;
 }
 
-function getBaseUrl() {
-  return (
-    process.env.NEXT_PUBLIC_APP_URL ||
-    process.env.APP_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
-    "http://localhost:3000"
-  );
-}
-
 export async function generateMetadata({ params }: Props) {
   const resolved = await params;
   const id = Number(resolved.id);
   if (!Number.isFinite(id)) return {};
 
-  const baseUrl = getBaseUrl();
-  const res = await fetch(`${baseUrl}/api/products/${id}`, { next: { tags: ["products", `product:${id}`] } });
-  const product = (await res.json().catch(() => null)) as null | {
-    id: number;
-    title: string;
-    description: string | null;
-    price: number;
-    tag: string | null;
-    category: string | null;
-    stock: number;
-    images: string[];
-  };
+  const product = await getPublicProductById(id);
   if (!product) return {};
 
   const title = `${product.title} | Lycia Labs`;
@@ -65,39 +46,14 @@ export default async function UrunDetay({ params }: Props) {
   const id = Number(resolved.id);
   if (!Number.isFinite(id)) return notFound();
 
-  const baseUrl = getBaseUrl();
-  const res = await fetch(`${baseUrl}/api/products/${id}`, { next: { tags: ["products", `product:${id}`] } });
-  if (!res.ok) return notFound();
-  const product = (await res.json()) as {
-    id: number;
-    title: string;
-    description: string | null;
-    price: number;
-    tag: string | null;
-    category: string | null;
-    stock: number;
-    images: string[];
-  };
+  const product = await getPublicProductById(id);
   if (!product) return notFound();
 
   const base = product.images.length ? product.images : [];
   const images = [...base, ...galleryFallbacks.filter((g) => !base.includes(g))].slice(0, 4);
   const priceText = formatMoney(product.price);
 
-  const listRes = await fetch(
-    `${baseUrl}/api/products${product.category ? `?kategori=${encodeURIComponent(product.category)}` : ""}`,
-    { next: { tags: ["products"] } },
-  );
-  const all = (await listRes.json().catch(() => [])) as Array<{
-    id: number;
-    title: string;
-    description: string | null;
-    price: number;
-    tag: string | null;
-    category: string | null;
-    stock: number;
-    images: string[];
-  }>;
+  const all = await getPublicProducts(product.category ?? null).catch(() => []);
   const similar = all
     .filter((p) => p.id !== product.id)
     .slice(0, 3);

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import Stagger from "@/components/Stagger";
+import { getPublicProducts } from "@/lib/products/server";
 
 const categories = [
   { id: "all", label: "Tümü" },
@@ -17,25 +18,12 @@ function formatMoney(amount: number) {
   return `₺${amount.toLocaleString("tr-TR")}`;
 }
 
-function getBaseUrl() {
-  return (
-    process.env.NEXT_PUBLIC_APP_URL ||
-    process.env.APP_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
-    "http://localhost:3000"
-  );
-}
-
 export default async function Magaza({ searchParams }: Props) {
   const resolved = (await searchParams) ?? {};
   const active = resolved.kategori ?? "all";
 
-  const baseUrl = getBaseUrl();
-  const res = await fetch(`${baseUrl}/api/products${active && active !== "all" ? `?kategori=${encodeURIComponent(active)}` : ""}`, {
-    next: { tags: ["products"] },
-  });
-  if (!res.ok) {
-    // Fail-safe: render empty list if API fails.
+  const products = await getPublicProducts(active && active !== "all" ? active : null).catch(() => []);
+  if (!Array.isArray(products) || products.length === 0) {
     return (
       <main className="relative z-10 space-y-8 bg-[var(--background)] px-6 pb-16 pt-10 text-foreground md:px-10 lg:px-14">
         <Reveal>
@@ -48,20 +36,7 @@ export default async function Magaza({ searchParams }: Props) {
       </main>
     );
   }
-  const products = (await res.json().catch(() => [])) as Array<{
-    id: number;
-    title: string;
-    description: string | null;
-    price: number;
-    tag: string | null;
-    category: string | null;
-    stock: number;
-    images: string[];
-  }>;
   const filtered = products;
-
-  console.log(products);
-  
 
   return (
     <main className="relative z-10 space-y-8 bg-[var(--background)] px-6 pb-16 pt-10 text-foreground md:px-10 lg:px-14">
