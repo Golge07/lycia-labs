@@ -25,11 +25,11 @@ export default async function Magaza({ searchParams }: Props) {
   const products = await getPublicProducts(active && active !== "all" ? active : null).catch(() => []);
   if (!Array.isArray(products) || products.length === 0) {
     return (
-      <main className="relative z-10 space-y-8 bg-[var(--background)] px-6 pb-16 pt-10 text-foreground md:px-10 lg:px-14">
+      <main className="relative z-10 space-y-8 bg-background px-6 pb-16 pt-10 text-foreground md:px-10 lg:px-14">
         <Reveal>
           <section className="space-y-3">
             <p className="heading-font text-sm uppercase tracking-[0.3em] text-terracotta">Mağaza</p>
-            <h1 className="heading-font text-4xl text-foreground">Ürün Kataloğu</h1>
+            <h1 className="heading-font text-3xl text-foreground sm:text-4xl">Ürün Kataloğu</h1>
             <p className="text-[rgba(59,43,43,0.75)]">Ürünler şu an yüklenemedi.</p>
           </section>
         </Reveal>
@@ -39,11 +39,11 @@ export default async function Magaza({ searchParams }: Props) {
   const filtered = products;
 
   return (
-    <main className="relative z-10 space-y-8 bg-[var(--background)] px-6 pb-16 pt-10 text-foreground md:px-10 lg:px-14">
+    <div className="relative z-10 space-y-8 bg-background px-6 pb-16 pt-10 text-foreground md:px-10 lg:px-14">
       <Reveal>
         <section className="space-y-3">
           <p className="heading-font text-sm uppercase tracking-[0.3em] text-terracotta">Mağaza</p>
-          <h1 className="heading-font text-4xl text-foreground">Ürün Kataloğu</h1>
+          <h1 className="heading-font text-3xl text-foreground sm:text-4xl">Ürün Kataloğu</h1>
           <p className="text-[rgba(59,43,43,0.75)]">Cildiniz için seçilmiş, sade ve temiz formüller.</p>
           <div className="flex flex-wrap gap-3 pt-2">
             {categories.map((cat) => {
@@ -99,6 +99,6 @@ export default async function Magaza({ searchParams }: Props) {
           );
         })}
       </Stagger>
-    </main>
+    </div>
   );
 }

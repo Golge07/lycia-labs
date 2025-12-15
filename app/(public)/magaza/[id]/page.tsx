@@ -59,36 +59,36 @@ export default async function UrunDetay({ params }: Props) {
     .slice(0, 3);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[var(--background)] text-foreground">
+    <div className="relative bg-background text-foreground">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-15%] top-[-10%] h-72 w-72 rounded-full bg-[rgba(167,68,68,0.08)] blur-3xl" />
         <div className="absolute right-[-10%] top-10 h-80 w-80 rounded-full bg-[rgba(143,188,163,0.08)] blur-3xl" />
       </div>
 
-      <main className="relative z-10 space-y-10 px-6 pb-16 pt-10 md:px-10 lg:px-14">
+      <main className="relative z-10 space-y-10 overflow-x-hidden px-6 pb-16 pt-10 md:px-10 lg:px-14">
         <Reveal>
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
+            <div className="min-w-0">
               <p className="heading-font text-sm uppercase tracking-[0.3em] text-terracotta">Ürün Detayı</p>
-              <h1 className="heading-font text-4xl text-foreground">{product.title}</h1>
+              <h1 className="heading-font wrap-break-word text-3xl text-foreground sm:text-4xl">{product.title}</h1>
               <p className="text-base text-[rgba(59,43,43,0.65)]">{(product.category ?? "-").toUpperCase()}</p>
             </div>
             <Link
               href="/magaza"
-              className="rounded-full border border-[rgba(59,43,43,0.2)] px-4 py-2 text-base text-foreground transition hover:border-terracotta hover:text-terracotta"
+              className="w-full rounded-full border border-[rgba(59,43,43,0.2)] px-4 py-2 text-center text-base text-foreground transition hover:border-terracotta hover:text-terracotta sm:w-auto"
             >
               ← Mağazaya dön
             </Link>
           </div>
         </Reveal>
 
-        <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-          <Reveal>
+        <div className="flex flex-col md:flex-row gap-8 w-full">
+          <Reveal className="md:w-4/12">
             <ProductGallery title={product.title} images={images} />
           </Reveal>
 
-          <Reveal delay={0.05}>
-            <div className="space-y-4 rounded-3xl p-2">
+          <Reveal delay={0.05} className="md:w-8/12">
+            <div className="min-w-0 space-y-4 rounded-3xl p-2">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="rounded-full bg-sand px-3 py-1 text-sm font-semibold text-foreground shadow-sm">
                   {product.tag ?? "Öne çıkan"}
@@ -100,12 +100,12 @@ export default async function UrunDetay({ params }: Props) {
 
               <p className="heading-font text-3xl text-foreground">{product.title}</p>
 
-              <p className="text-base text-[rgba(59,43,43,0.75)]">
+              <p className="wrap-break-word text-base text-[rgba(59,43,43,0.75)]">
                 {product.description ??
                   "Temiz içerikler ve dengeli formüllerle tasarlanmış, cildinize nazik bir bakım sunar."}
               </p>
 
-              <div className="grid gap-2 text-base text-[rgba(59,43,43,0.7)]">
+              <div className="flex flex-col gap-2 text-base text-[rgba(59,43,43,0.7)]">
                 <span>• Bitkisel içerikler, temiz formül</span>
                 <span>• Gönderim: 2–4 iş günü, iade: 30 gün</span>
                 <span>• Güvenli ödeme</span>

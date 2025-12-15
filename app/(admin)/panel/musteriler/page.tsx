@@ -82,34 +82,36 @@ export default function PanelMusteriler() {
     }
 
     return (
-      <div className="mt-5 overflow-hidden rounded-2xl border border-foreground/10 bg-white/80">
-        <div className="grid grid-cols-[1.2fr_1.8fr_0.8fr_0.6fr_0.9fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
-          <span>Kullanıcı</span>
-          <span>E-posta</span>
-          <span>Segment</span>
-          <span>Sipariş</span>
-          <span>Son</span>
-        </div>
-        <div className="divide-y divide-foreground/10">
-          {customers.map((c) => (
-            <Link
-              key={c.id}
-              href={`/panel/musteriler/${encodeURIComponent(c.id)}`}
-              className="grid grid-cols-[1.2fr_1.8fr_0.8fr_0.6fr_0.9fr] gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
-            >
-              <p className="truncate font-semibold text-foreground">{c.username}</p>
-              <p className="truncate text-foreground/75">{c.email}</p>
-              <span className="inline-flex h-fit w-fit rounded-full bg-foreground/5 px-3 py-1 text-xs font-semibold text-foreground">
-                {segmentFromOrders(c.orders)}
-              </span>
-              <p className="font-semibold text-terracotta">{c.orders}</p>
-              <p className="text-foreground/70">{c.lastOrderAt ? new Date(c.lastOrderAt).toLocaleDateString("tr-TR") : "-"}</p>
-            </Link>
-          ))}
+      <div className="mt-5 overflow-x-auto rounded-2xl border border-foreground/10 bg-white/80">
+        <div className="min-w-[920px]">
+          <div className="grid grid-cols-[1.2fr_1.8fr_0.8fr_0.6fr_0.9fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
+            <span>Kullanıcı</span>
+            <span>E-posta</span>
+            <span>Segment</span>
+            <span>Sipariş</span>
+            <span>Son</span>
+          </div>
+          <div className="divide-y divide-foreground/10">
+            {customers.map((c) => (
+              <Link
+                key={c.id}
+                href={`/panel/musteriler/${encodeURIComponent(c.id)}`}
+                className="grid grid-cols-[1.2fr_1.8fr_0.8fr_0.6fr_0.9fr] gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
+              >
+                <p className="truncate font-semibold text-foreground">{c.username}</p>
+                <p className="truncate text-foreground/75">{c.email}</p>
+                <span className="inline-flex h-fit w-fit rounded-full bg-foreground/5 px-3 py-1 text-xs font-semibold text-foreground">
+                  {segmentFromOrders(c.orders)}
+                </span>
+                <p className="font-semibold text-terracotta">{c.orders}</p>
+                <p className="text-foreground/70">{c.lastOrderAt ? new Date(c.lastOrderAt).toLocaleDateString("tr-TR") : "-"}</p>
+              </Link>
+            ))}
 
-          {customers.length === 0 ? (
-            <div className="px-4 py-10 text-center text-sm text-foreground/65">Sonuç bulunamadı.</div>
-          ) : null}
+            {customers.length === 0 ? (
+              <div className="px-4 py-10 text-center text-sm text-foreground/65">Sonuç bulunamadı.</div>
+            ) : null}
+          </div>
         </div>
       </div>
     );
@@ -158,4 +160,3 @@ export default function PanelMusteriler() {
     </div>
   );
 }
-

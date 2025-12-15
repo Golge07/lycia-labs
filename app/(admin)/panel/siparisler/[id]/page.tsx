@@ -102,22 +102,24 @@ export default function SiparisDetay() {
           <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="rounded-3xl border border-foreground/10 bg-white/70 p-6 shadow-xl">
               <SkeletonLine className="h-4 w-28" />
-              <div className="mt-4 overflow-hidden rounded-2xl border border-foreground/10 bg-white/80">
-                <div className="grid grid-cols-4 gap-3 border-b border-foreground/10 px-4 py-3">
-                  <SkeletonLine className="h-3 w-20" />
-                  <SkeletonLine className="h-3 w-14" />
-                  <SkeletonLine className="h-3 w-14" />
-                  <SkeletonLine className="h-3 w-14" />
-                </div>
-                <div className="divide-y divide-foreground/10">
-                  {Array.from({ length: 5 }).map((_, idx) => (
-                    <div key={idx} className="grid grid-cols-4 items-center gap-3 px-4 py-4">
-                      <SkeletonLine className="h-4 w-52" />
-                      <SkeletonLine className="h-4 w-10" />
-                      <SkeletonLine className="h-4 w-20" />
-                      <SkeletonLine className="h-4 w-24" />
-                    </div>
-                  ))}
+              <div className="mt-4 overflow-x-auto rounded-2xl border border-foreground/10 bg-white/80">
+                <div className="min-w-[760px]">
+                  <div className="grid grid-cols-4 gap-3 border-b border-foreground/10 px-4 py-3">
+                    <SkeletonLine className="h-3 w-20" />
+                    <SkeletonLine className="h-3 w-14" />
+                    <SkeletonLine className="h-3 w-14" />
+                    <SkeletonLine className="h-3 w-14" />
+                  </div>
+                  <div className="divide-y divide-foreground/10">
+                    {Array.from({ length: 5 }).map((_, idx) => (
+                      <div key={idx} className="grid grid-cols-4 items-center gap-3 px-4 py-4">
+                        <SkeletonLine className="h-4 w-52" />
+                        <SkeletonLine className="h-4 w-10" />
+                        <SkeletonLine className="h-4 w-20" />
+                        <SkeletonLine className="h-4 w-24" />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
               <SkeletonBlock className="mt-4 h-20 w-full" />
@@ -190,25 +192,24 @@ export default function SiparisDetay() {
           <div className="rounded-3xl border border-foreground/10 bg-white/70 p-6 shadow-xl">
             <p className="heading-font text-lg text-foreground">Ürünler</p>
 
-            <div className="mt-4 overflow-hidden rounded-2xl border border-foreground/10 bg-white/80">
-              <div className="grid grid-cols-[1.6fr_0.4fr_0.6fr_0.6fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
-                <span>Ürün</span>
-                <span>Adet</span>
-                <span>Birim</span>
-                <span>Tutar</span>
-              </div>
-              <div className="divide-y divide-foreground/10">
-                {order.items.map((item) => (
-                  <div
-                    key={item.id}
-                    className="grid grid-cols-[1.6fr_0.4fr_0.6fr_0.6fr] gap-3 px-4 py-3 text-sm"
-                  >
-                    <p className="font-medium text-foreground">{item.title}</p>
-                    <p className="font-semibold text-foreground">{item.quantity}</p>
-                    <p className="text-foreground/75">{formatMoney(item.unit_price)}</p>
-                    <p className="font-semibold text-terracotta">{formatMoney(item.line_total)}</p>
-                  </div>
-                ))}
+            <div className="mt-4 overflow-x-auto rounded-2xl border border-foreground/10 bg-white/80">
+              <div className="min-w-[760px]">
+                <div className="grid grid-cols-[1.6fr_0.4fr_0.6fr_0.6fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
+                  <span>Ürün</span>
+                  <span>Adet</span>
+                  <span>Birim</span>
+                  <span>Tutar</span>
+                </div>
+                <div className="divide-y divide-foreground/10">
+                  {order.items.map((item) => (
+                    <div key={item.id} className="grid grid-cols-[1.6fr_0.4fr_0.6fr_0.6fr] gap-3 px-4 py-3 text-sm">
+                      <p className="font-medium text-foreground">{item.title}</p>
+                      <p className="font-semibold text-foreground">{item.quantity}</p>
+                      <p className="text-foreground/75">{formatMoney(item.unit_price)}</p>
+                      <p className="font-semibold text-terracotta">{formatMoney(item.line_total)}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 

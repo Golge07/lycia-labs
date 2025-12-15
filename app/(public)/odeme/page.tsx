@@ -72,8 +72,8 @@ export default function OdemePage() {
   };
 
   return (
-    <main className="bg-background px-6 pb-16 pt-10 text-foreground md:px-12 lg:px-20">
-      <div className="mx-auto w-full max-w-6xl space-y-6">
+    <div className="w-full flex flex-col bg-background px-6 pb-16 pt-10 text-foreground md:px-12 lg:px-20">
+      <div className="flex flex-col w-full max-w-6xl space-y-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="heading-font text-sm uppercase tracking-[0.3em] text-terracotta">Ödeme</p>
@@ -110,21 +110,20 @@ export default function OdemePage() {
             </div>
           </div>
         ) : null}
-
         {items.length === 0 ? (
           <div className="rounded-3xl border border-foreground/10 bg-white/70 p-6 shadow-xl">
             <p className="heading-font text-lg text-foreground">Sepet boş</p>
             <p className="mt-1 text-sm text-foreground/65">Ödeme için önce sepete ürün ekle.</p>
             <Link
               href="/magaza"
-              className="mt-4 inline-flex rounded-full bg-terracotta px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:shadow-lg"
+              className="mt-4 inline-flex w-full justify-center rounded-full bg-terracotta px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:shadow-lg sm:w-auto"
             >
               Ürünleri Gör
             </Link>
           </div>
         ) : (
-          <div className="grid gap-6 lg:grid-cols-[1fr_420px]">
-            <section className="space-y-6">
+          <div className="flex flex-col w-full md:flex-row md:gap-6">
+            <section className="space-y-6 w-full">
               <div className="rounded-3xl border border-foreground/10 bg-white/70 p-6 shadow-xl">
                 <p className="heading-font text-lg text-foreground">Profil</p>
                 <p className="mt-1 text-sm text-foreground/65">Fatura ve teslimat için</p>
@@ -268,6 +267,6 @@ export default function OdemePage() {
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 }

@@ -155,22 +155,24 @@ export default function PanelDashboard() {
               </div>
               <SkeletonLine className="h-9 w-28 rounded-full" />
             </div>
-            <div className="mt-5 overflow-hidden rounded-2xl border border-foreground/10 bg-white/80">
-              <div className="grid grid-cols-4 gap-3 border-b border-foreground/10 px-4 py-3">
-                <SkeletonLine className="h-3 w-20" />
-                <SkeletonLine className="h-3 w-24" />
-                <SkeletonLine className="h-3 w-16" />
-                <SkeletonLine className="h-3 w-20" />
-              </div>
-              <div className="divide-y divide-foreground/10">
-                {Array.from({ length: 5 }).map((_, idx) => (
-                  <div key={idx} className="grid grid-cols-4 items-center gap-3 px-4 py-4">
-                    <SkeletonLine className="h-4 w-40" />
-                    <SkeletonLine className="h-4 w-44" />
-                    <SkeletonLine className="h-4 w-24" />
-                    <SkeletonLine className="h-6 w-24 justify-self-end rounded-full" />
-                  </div>
-                ))}
+            <div className="mt-5 overflow-x-auto rounded-2xl border border-foreground/10 bg-white/80">
+              <div className="min-w-[820px]">
+                <div className="grid grid-cols-4 gap-3 border-b border-foreground/10 px-4 py-3">
+                  <SkeletonLine className="h-3 w-20" />
+                  <SkeletonLine className="h-3 w-24" />
+                  <SkeletonLine className="h-3 w-16" />
+                  <SkeletonLine className="h-3 w-20" />
+                </div>
+                <div className="divide-y divide-foreground/10">
+                  {Array.from({ length: 5 }).map((_, idx) => (
+                    <div key={idx} className="grid grid-cols-4 items-center gap-3 px-4 py-4">
+                      <SkeletonLine className="h-4 w-40" />
+                      <SkeletonLine className="h-4 w-44" />
+                      <SkeletonLine className="h-4 w-24" />
+                      <SkeletonLine className="h-6 w-24 justify-self-end rounded-full" />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -240,34 +242,38 @@ export default function PanelDashboard() {
           </div>
 
           <div className="mt-5 overflow-hidden rounded-2xl border border-foreground/10 bg-white/80">
-            <div className="grid grid-cols-[1fr_1.2fr_0.7fr_0.9fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
-              <span>Sipariş</span>
-              <span>Müşteri</span>
-              <span>Tutar</span>
-              <span>Durum</span>
-            </div>
-            <div className="divide-y divide-foreground/10">
-              {(data?.recentOrders ?? []).map((o) => (
-                <Link
-                  key={o.id}
-                  href={`/panel/siparisler/${encodeURIComponent(o.id)}`}
-                  className="grid grid-cols-[1fr_1.2fr_0.7fr_0.9fr] gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
-                >
-                  <div className="space-y-1">
-                    <p className="font-semibold text-foreground">{o.id}</p>
-                    <p className="text-xs text-foreground/60">{new Date(o.created_at).toLocaleString("tr-TR")}</p>
-                  </div>
-                  <p className="font-medium text-foreground">{o.username ?? "-"}</p>
-                  <p className="font-semibold text-terracotta">{formatMoney(o.total)}</p>
-                  <span className="inline-flex h-fit w-fit rounded-full bg-foreground/5 px-3 py-1 text-xs font-semibold text-foreground">
-                    {labelForStatus(o.status)}
-                  </span>
-                </Link>
-              ))}
+            <div className="overflow-x-auto">
+              <div className="min-w-[820px]">
+                <div className="grid grid-cols-[1fr_1.2fr_0.7fr_0.9fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
+                  <span>Sipariş</span>
+                  <span>Müşteri</span>
+                  <span>Tutar</span>
+                  <span>Durum</span>
+                </div>
+                <div className="divide-y divide-foreground/10">
+                  {(data?.recentOrders ?? []).map((o) => (
+                    <Link
+                      key={o.id}
+                      href={`/panel/siparisler/${encodeURIComponent(o.id)}`}
+                      className="grid grid-cols-[1fr_1.2fr_0.7fr_0.9fr] gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
+                    >
+                      <div className="space-y-1">
+                        <p className="font-semibold text-foreground">{o.id}</p>
+                        <p className="text-xs text-foreground/60">{new Date(o.created_at).toLocaleString("tr-TR")}</p>
+                      </div>
+                      <p className="font-medium text-foreground">{o.username ?? "-"}</p>
+                      <p className="font-semibold text-terracotta">{formatMoney(o.total)}</p>
+                      <span className="inline-flex h-fit w-fit rounded-full bg-foreground/5 px-3 py-1 text-xs font-semibold text-foreground">
+                        {labelForStatus(o.status)}
+                      </span>
+                    </Link>
+                  ))}
 
-              {(data?.recentOrders ?? []).length === 0 ? (
-                <div className="px-4 py-10 text-center text-sm text-foreground/65">Henüz sipariş yok.</div>
-              ) : null}
+                  {(data?.recentOrders ?? []).length === 0 ? (
+                    <div className="px-4 py-10 text-center text-sm text-foreground/65">Henüz sipariş yok.</div>
+                  ) : null}
+                </div>
+              </div>
             </div>
           </div>
         </div>

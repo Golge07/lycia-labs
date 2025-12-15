@@ -41,6 +41,22 @@ export default async function PanelLayout({ children }: { children: React.ReactN
               </div>
 
               <div className="flex items-center gap-2">
+                <details className="relative lg:hidden">
+                  <summary className="list-none cursor-pointer rounded-full border border-foreground/20 bg-white/60 px-4 py-2 text-sm font-semibold text-foreground transition hover:border-terracotta hover:text-terracotta">
+                    Menü
+                  </summary>
+                  <div className="absolute right-0 mt-2 w-60 overflow-hidden rounded-2xl border border-foreground/10 bg-white/95 p-2 shadow-xl">
+                    {panelLinks.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="block rounded-xl px-4 py-3 text-sm font-semibold text-foreground/85 transition hover:bg-[rgba(230,215,194,0.35)] hover:text-foreground"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </details>
                 <Link
                   href="/panel"
                   className="rounded-full border border-foreground/20 bg-white/60 px-4 py-2 text-sm font-semibold text-foreground transition hover:border-terracotta hover:text-terracotta"
@@ -63,4 +79,3 @@ export default async function PanelLayout({ children }: { children: React.ReactN
     </div>
   );
 }
-

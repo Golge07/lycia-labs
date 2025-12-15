@@ -86,32 +86,64 @@ export default function ProfilSiparisler() {
         </div>
       ) : null}
 
-      <div className="mt-5 overflow-hidden rounded-2xl border border-foreground/10 bg-white/80">
-        <div className="grid grid-cols-[1fr_0.9fr_0.9fr_0.9fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
-          <span>Sipariş</span>
-          <span>Tarih</span>
-          <span>Tutar</span>
-          <span>Durum</span>
-        </div>
-        <div className="divide-y divide-foreground/10">
-          {orders.map((o) => (
-            <Link
-              key={o.id}
-              href={`/profil/siparisler/${encodeURIComponent(o.id)}`}
-              className="grid grid-cols-[1fr_0.9fr_0.9fr_0.9fr] gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
-            >
-              <p className="font-semibold text-foreground">{o.id}</p>
-              <p className="text-foreground/70">{new Date(o.created_at).toLocaleString("tr-TR")}</p>
-              <p className="font-semibold text-terracotta">{formatMoney(o.total)}</p>
-              <span className="inline-flex h-fit w-fit rounded-full bg-foreground/5 px-3 py-1 text-xs font-semibold text-foreground">
+      <div className="mt-5 space-y-3 sm:hidden">
+        {orders.map((o) => (
+          <Link
+            key={o.id}
+            href={`/profil/siparisler/${encodeURIComponent(o.id)}`}
+            className="block rounded-2xl border border-foreground/10 bg-white/80 p-4 text-foreground transition hover:bg-[rgba(230,215,194,0.25)]"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="truncate font-semibold">{o.id}</p>
+                <p className="mt-1 text-xs text-foreground/65">{new Date(o.created_at).toLocaleString("tr-TR")}</p>
+              </div>
+              <span className="shrink-0 rounded-full bg-foreground/5 px-3 py-1 text-xs font-semibold text-foreground">
                 {statusLabel(o.status)}
               </span>
-            </Link>
-          ))}
+            </div>
+            <div className="mt-3 flex items-center justify-between text-sm">
+              <span className="text-foreground/70">Ürün: {o.item_count}</span>
+              <span className="font-semibold text-terracotta">{formatMoney(o.total)}</span>
+            </div>
+          </Link>
+        ))}
 
-          {!loading && orders.length === 0 ? (
-            <div className="px-4 py-10 text-center text-sm text-foreground/65">Henüz sipariş yok.</div>
-          ) : null}
+        {!loading && orders.length === 0 ? (
+          <div className="rounded-2xl border border-foreground/10 bg-white/80 px-4 py-10 text-center text-sm text-foreground/65">
+            Henüz sipariş yok.
+          </div>
+        ) : null}
+      </div>
+
+      <div className="mt-5 hidden overflow-x-auto rounded-2xl border border-foreground/10 bg-white/80 sm:block">
+        <div className="min-w-[760px]">
+          <div className="grid grid-cols-[1fr_0.9fr_0.9fr_0.9fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
+            <span>Sipariş</span>
+            <span>Tarih</span>
+            <span>Tutar</span>
+            <span>Durum</span>
+          </div>
+          <div className="divide-y divide-foreground/10">
+            {orders.map((o) => (
+              <Link
+                key={o.id}
+                href={`/profil/siparisler/${encodeURIComponent(o.id)}`}
+                className="grid grid-cols-[1fr_0.9fr_0.9fr_0.9fr] gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
+              >
+                <p className="font-semibold text-foreground">{o.id}</p>
+                <p className="text-foreground/70">{new Date(o.created_at).toLocaleString("tr-TR")}</p>
+                <p className="font-semibold text-terracotta">{formatMoney(o.total)}</p>
+                <span className="inline-flex h-fit w-fit rounded-full bg-foreground/5 px-3 py-1 text-xs font-semibold text-foreground">
+                  {statusLabel(o.status)}
+                </span>
+              </Link>
+            ))}
+
+            {!loading && orders.length === 0 ? (
+              <div className="px-4 py-10 text-center text-sm text-foreground/65">Henüz sipariş yok.</div>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>

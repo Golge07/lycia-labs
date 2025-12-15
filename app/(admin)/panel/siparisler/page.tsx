@@ -78,37 +78,39 @@ export default function PanelSiparisler() {
     }
 
     return (
-      <div className="mt-5 overflow-hidden rounded-2xl border border-foreground/10 bg-white/80">
-        <div className="grid grid-cols-[1fr_1.2fr_0.8fr_0.9fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
-          <span>Sipariş</span>
-          <span>Müşteri</span>
-          <span>Tutar</span>
-          <span>Durum</span>
-        </div>
-        <div className="divide-y divide-foreground/10">
-          {orders.map((o) => (
-            <div
-              key={o.id}
-              className="grid grid-cols-[1fr_1.2fr_0.8fr_0.9fr] items-center gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
-            >
-              <Link href={`/panel/siparisler/${encodeURIComponent(o.id)}`} className="contents">
-                <div className="space-y-1">
-                  <p className="font-semibold text-foreground">{o.id}</p>
-                  <p className="text-xs text-foreground/60">{new Date(o.created_at).toLocaleString("tr-TR")}</p>
+      <div className="mt-5 overflow-x-auto rounded-2xl border border-foreground/10 bg-white/80">
+        <div className="min-w-[820px]">
+          <div className="grid grid-cols-[1fr_1.2fr_0.8fr_0.9fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
+            <span>Sipariş</span>
+            <span>Müşteri</span>
+            <span>Tutar</span>
+            <span>Durum</span>
+          </div>
+          <div className="divide-y divide-foreground/10">
+            {orders.map((o) => (
+              <div
+                key={o.id}
+                className="grid grid-cols-[1fr_1.2fr_0.8fr_0.9fr] items-center gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
+              >
+                <Link href={`/panel/siparisler/${encodeURIComponent(o.id)}`} className="contents">
+                  <div className="space-y-1">
+                    <p className="font-semibold text-foreground">{o.id}</p>
+                    <p className="text-xs text-foreground/60">{new Date(o.created_at).toLocaleString("tr-TR")}</p>
+                  </div>
+                  <p className="font-medium text-foreground">{o.user?.username ?? "-"}</p>
+                  <p className="font-semibold text-terracotta">{formatMoney(o.total)}</p>
+                </Link>
+
+                <div className="flex justify-end">
+                  <OrderStatusSelect orderId={o.id} initialStatus={o.status} />
                 </div>
-                <p className="font-medium text-foreground">{o.user?.username ?? "-"}</p>
-                <p className="font-semibold text-terracotta">{formatMoney(o.total)}</p>
-              </Link>
-
-              <div className="flex justify-end">
-                <OrderStatusSelect orderId={o.id} initialStatus={o.status} />
               </div>
-            </div>
-          ))}
+            ))}
 
-          {orders.length === 0 ? (
-            <div className="px-4 py-10 text-center text-sm text-foreground/65">Sonuç bulunamadı.</div>
-          ) : null}
+            {orders.length === 0 ? (
+              <div className="px-4 py-10 text-center text-sm text-foreground/65">Sonuç bulunamadı.</div>
+            ) : null}
+          </div>
         </div>
       </div>
     );

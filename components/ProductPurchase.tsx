@@ -41,7 +41,7 @@ export default function ProductPurchase({ productId, title, price, img }: Props)
     <div className="space-y-3 rounded-2xl border border-[rgba(59,43,43,0.12)] bg-[rgba(167,68,68,0.05)] p-4 shadow-sm">
       <p className="text-2xl font-semibold text-terracotta">{price}</p>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <span className="text-base font-semibold text-foreground">Miktar</span>
         <div className="flex items-center gap-2">
           <button

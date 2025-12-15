@@ -70,47 +70,49 @@ export default function PanelUrunler() {
     }
 
     return (
-      <div className="mt-5 overflow-hidden rounded-2xl border border-foreground/10 bg-white/80">
-        <div className="grid grid-cols-[0.7fr_1.6fr_0.7fr_0.6fr_0.7fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
-          <span>ID</span>
-          <span>Ürün</span>
-          <span>Fiyat</span>
-          <span>Stok</span>
-          <span>Durum</span>
-        </div>
-        <div className="divide-y divide-foreground/10">
-          {products.map((p) => {
-            const images = Array.isArray(p.images) ? (p.images as any[]) : [];
-            const cover = typeof images[0] === "string" ? (images[0] as string) : "/5.png";
-            const status = statusFromStock(p.stock, p.active);
-            return (
-              <Link
-                key={p.id}
-                href={`/panel/urunler/${p.id}`}
-                className="grid grid-cols-[0.7fr_1.6fr_0.7fr_0.6fr_0.7fr] items-center gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
-              >
-                <p className="font-semibold text-foreground">{p.id}</p>
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 overflow-hidden rounded-xl border border-foreground/10 bg-white/70">
-                    <img src={cover} alt={p.title} className="h-full w-full object-cover" />
+      <div className="mt-5 overflow-x-auto rounded-2xl border border-foreground/10 bg-white/80">
+        <div className="min-w-[900px]">
+          <div className="grid grid-cols-[0.7fr_1.6fr_0.7fr_0.6fr_0.7fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
+            <span>ID</span>
+            <span>Ürün</span>
+            <span>Fiyat</span>
+            <span>Stok</span>
+            <span>Durum</span>
+          </div>
+          <div className="divide-y divide-foreground/10">
+            {products.map((p) => {
+              const images = Array.isArray(p.images) ? (p.images as any[]) : [];
+              const cover = typeof images[0] === "string" ? (images[0] as string) : "/5.png";
+              const status = statusFromStock(p.stock, p.active);
+              return (
+                <Link
+                  key={p.id}
+                  href={`/panel/urunler/${p.id}`}
+                  className="grid grid-cols-[0.7fr_1.6fr_0.7fr_0.6fr_0.7fr] items-center gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
+                >
+                  <p className="font-semibold text-foreground">{p.id}</p>
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 overflow-hidden rounded-xl border border-foreground/10 bg-white/70">
+                      <img src={cover} alt={p.title} className="h-full w-full object-cover" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate font-medium text-foreground">{p.title}</p>
+                      <p className="text-xs text-foreground/60">{p.tag ?? "-"}</p>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <p className="truncate font-medium text-foreground">{p.title}</p>
-                    <p className="text-xs text-foreground/60">{p.tag ?? "-"}</p>
-                  </div>
-                </div>
-                <p className="font-semibold text-terracotta">{formatMoney(p.price)}</p>
-                <p className="font-semibold text-foreground">{p.stock}</p>
-                <span className="inline-flex h-fit w-fit rounded-full bg-foreground/5 px-3 py-1 text-xs font-semibold text-foreground">
-                  {status}
-                </span>
-              </Link>
-            );
-          })}
+                  <p className="font-semibold text-terracotta">{formatMoney(p.price)}</p>
+                  <p className="font-semibold text-foreground">{p.stock}</p>
+                  <span className="inline-flex h-fit w-fit rounded-full bg-foreground/5 px-3 py-1 text-xs font-semibold text-foreground">
+                    {status}
+                  </span>
+                </Link>
+              );
+            })}
 
-          {products.length === 0 ? (
-            <div className="px-4 py-10 text-center text-sm text-foreground/65">Henüz ürün yok.</div>
-          ) : null}
+            {products.length === 0 ? (
+              <div className="px-4 py-10 text-center text-sm text-foreground/65">Henüz ürün yok.</div>
+            ) : null}
+          </div>
         </div>
       </div>
     );

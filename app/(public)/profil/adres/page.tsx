@@ -118,8 +118,8 @@ export default function ProfilAdres() {
   };
 
   return (
-    <div className="rounded-3xl border border-foreground/10 bg-white/70 p-6 shadow-xl">
-      <div className="flex items-end justify-between gap-3">
+    <div className="rounded-3xl border border-foreground/10 bg-white/70 p-5 shadow-xl sm:p-6">
+      <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end">
         <div>
           <p className="heading-font text-2xl text-foreground">Adres</p>
           <p className="mt-1 text-sm text-foreground/65">Teslimat bilgileri</p>
@@ -128,7 +128,7 @@ export default function ProfilAdres() {
           type="button"
           onClick={save}
           disabled={saving}
-          className={`rounded-full px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:shadow-lg disabled:opacity-70 ${
+          className={`w-full rounded-full px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:shadow-lg disabled:opacity-70 sm:w-auto ${
             saved ? "bg-[var(--sage)]" : "bg-terracotta"
           }`}
         >

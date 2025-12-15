@@ -26,22 +26,22 @@ export default function ProductGallery({ title, images }: Props) {
           ref={imageRef}
           src={images[selectedImage] || "/5.png"}
           alt={title}
-          className="h-[420px] w-full object-cover"
+          className="h-[320px] w-full object-cover sm:h-[420px]"
         />
         <button
           onClick={() => setFavorite((f) => !f)}
-          className="absolute right-3 top-3 rounded-full border border-[rgba(59,43,43,0.12)] bg-white/90 px-3 py-1 text-sm font-semibold text-terracotta shadow-sm transition hover:bg-terracotta hover:text-white"
+          className="absolute right-3 top-3 max-w-[calc(100%-1.5rem)] truncate whitespace-nowrap rounded-full border border-[rgba(59,43,43,0.12)] bg-white/90 px-3 py-1 text-xs font-semibold text-terracotta shadow-sm transition hover:bg-terracotta hover:text-white sm:text-sm"
         >
           {favorite ? "Favoride" : "Favorilere ekle"}
         </button>
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex gap-3 overflow-x-auto pb-1">
         {images.map((img, idx) => (
           <button
             key={`${img}-${idx}`}
             onClick={() => setSelectedImage(idx)}
-            className={`h-20 w-24 overflow-hidden rounded-xl border transition ${
+            className={`h-16 w-20 shrink-0 overflow-hidden rounded-xl border transition sm:h-20 sm:w-24 ${
               selectedImage === idx
                 ? "border-terracotta shadow-md"
                 : "border-[rgba(59,43,43,0.12)] hover:border-terracotta/60"
@@ -54,4 +54,3 @@ export default function ProductGallery({ title, images }: Props) {
     </div>
   );
 }
-

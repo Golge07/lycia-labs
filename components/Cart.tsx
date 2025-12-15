@@ -21,10 +21,20 @@ export default function Cart() {
 
   const [rendered, setRendered] = useState(false);
   const [open, setOpen] = useState(false);
+  const [fromLeft, setFromLeft] = useState(false);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
 
   const close = () => setOpen(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const media = window.matchMedia("(max-width: 767px)");
+    const update = () => setFromLeft(media.matches);
+    update();
+    media.addEventListener?.("change", update);
+    return () => media.removeEventListener?.("change", update);
+  }, []);
 
   useEffect(() => {
     if (!rendered) return;
@@ -53,7 +63,7 @@ export default function Cart() {
     if (open) {
       gsap.killTweensOf([overlay, panel]);
       gsap.set(overlay, { autoAlpha: 0 });
-      gsap.set(panel, { xPercent: 100 });
+      gsap.set(panel, { xPercent: fromLeft ? -100 : 100 });
       gsap.to(overlay, { autoAlpha: 1, duration: 0.25, ease: "power1.out" });
       gsap.to(panel, { xPercent: 0, duration: 0.55, ease: "power3.out" });
       return;
@@ -63,9 +73,9 @@ export default function Cart() {
       onComplete: () => setRendered(false),
     });
 
-    tl.to(panel, { xPercent: 100, duration: 0.45, ease: "power2.inOut" }, 0);
+    tl.to(panel, { xPercent: fromLeft ? -100 : 100, duration: 0.45, ease: "power2.inOut" }, 0);
     tl.to(overlay, { autoAlpha: 0, duration: 0.2, ease: "power1.in" }, 0.08);
-  }, [open, rendered]);
+  }, [fromLeft, open, rendered]);
 
   const totals = useMemo(() => {
     const subtotal = items.reduce((sum, item) => sum + item.qty * item.unitPrice, 0);
@@ -90,7 +100,7 @@ export default function Cart() {
           role="dialog"
           aria-modal="true"
           aria-label="Sepet"
-          className="absolute right-0 top-0 h-full w-[380px] max-w-[92vw] border-l border-foreground/10 bg-white/95 shadow-[0_20px_60px_rgba(0,0,0,0.18)]"
+          className="absolute left-0 top-0 h-full w-[380px] max-w-[92vw] border-r border-foreground/10 bg-white/95 shadow-[0_20px_60px_rgba(0,0,0,0.18)] sm:left-auto sm:right-0 sm:border-l sm:border-r-0"
         >
           <div className="flex items-center justify-between border-b border-foreground/10 px-5 py-4">
             <div>

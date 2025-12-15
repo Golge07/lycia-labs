@@ -200,30 +200,32 @@ export default function MusteriDetay() {
 
         <div className="rounded-3xl border border-foreground/10 bg-white/70 p-6 shadow-xl">
           <p className="heading-font text-lg text-foreground">Siparişler</p>
-          <div className="mt-4 overflow-hidden rounded-2xl border border-foreground/10 bg-white/80">
-            <div className="grid grid-cols-[1fr_0.9fr_0.9fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
-              <span>Sipariş</span>
-              <span>Tarih</span>
-              <span>Tutar</span>
-            </div>
-            <div className="divide-y divide-foreground/10">
-              {data.orders.map((o) => (
-                <Link
-                  key={o.id}
-                  href={`/panel/siparisler/${encodeURIComponent(o.id)}`}
-                  className="grid grid-cols-[1fr_0.9fr_0.9fr] gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
-                >
-                  <div className="space-y-1">
-                    <p className="font-semibold text-foreground">{o.id}</p>
-                    <p className="text-xs text-foreground/60">{statusLabel(o.status)}</p>
-                  </div>
-                  <p className="text-foreground/70">{new Date(o.created_at).toLocaleDateString("tr-TR")}</p>
-                  <p className="font-semibold text-terracotta">{formatMoney(o.total_amount)}</p>
-                </Link>
-              ))}
-              {data.orders.length === 0 ? (
-                <div className="px-4 py-10 text-center text-sm text-foreground/65">Henüz sipariş yok.</div>
-              ) : null}
+          <div className="mt-4 overflow-x-auto rounded-2xl border border-foreground/10 bg-white/80">
+            <div className="min-w-[720px]">
+              <div className="grid grid-cols-[1fr_0.9fr_0.9fr] gap-3 border-b border-foreground/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
+                <span>Sipariş</span>
+                <span>Tarih</span>
+                <span>Tutar</span>
+              </div>
+              <div className="divide-y divide-foreground/10">
+                {data.orders.map((o) => (
+                  <Link
+                    key={o.id}
+                    href={`/panel/siparisler/${encodeURIComponent(o.id)}`}
+                    className="grid grid-cols-[1fr_0.9fr_0.9fr] gap-3 px-4 py-3 text-sm text-foreground/80 transition hover:bg-[rgba(230,215,194,0.25)]"
+                  >
+                    <div className="space-y-1">
+                      <p className="font-semibold text-foreground">{o.id}</p>
+                      <p className="text-xs text-foreground/60">{statusLabel(o.status)}</p>
+                    </div>
+                    <p className="text-foreground/70">{new Date(o.created_at).toLocaleDateString("tr-TR")}</p>
+                    <p className="font-semibold text-terracotta">{formatMoney(o.total_amount)}</p>
+                  </Link>
+                ))}
+                {data.orders.length === 0 ? (
+                  <div className="px-4 py-10 text-center text-sm text-foreground/65">Henüz sipariş yok.</div>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>

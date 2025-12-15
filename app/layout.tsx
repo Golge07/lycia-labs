@@ -34,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr">
-      <body className={`${primaryFont.variable} ${secondaryFont.variable} antialiased h-screen`}>
+      <body className={`${primaryFont.variable} ${secondaryFont.variable} antialiased h-screen w-screen overflow-x-hidden`}>
         <StoreProvider>
           <AuthProvider>
             {children}

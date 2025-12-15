@@ -26,8 +26,24 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
           </Link>
         </div>
 
+        <div className="mb-5 lg:hidden">
+          <div className="overflow-x-auto rounded-2xl border border-foreground/10 bg-white/70 p-2 shadow-xl">
+            <div className="flex gap-2">
+              {links.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="whitespace-nowrap rounded-full border border-foreground/10 bg-white/80 px-4 py-2 text-sm font-semibold text-foreground/85 transition hover:border-terracotta hover:text-terracotta"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-          <aside className="h-fit rounded-3xl border border-foreground/10 bg-white/70 p-4 shadow-xl lg:sticky lg:top-24">
+          <aside className="hidden h-fit rounded-3xl border border-foreground/10 bg-white/70 p-4 shadow-xl lg:block lg:sticky lg:top-24">
             <p className="heading-font text-sm text-foreground">{"Menü"}</p>
             <nav className="mt-3 space-y-1">
               {links.map((item) => (
@@ -48,4 +64,3 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
     </main>
   );
 }
-
